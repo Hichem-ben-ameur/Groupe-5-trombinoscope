@@ -1,0 +1,16 @@
+Compte,pseudo,https://d-nb.info/standards/elementset/gnd#Pseudonym
+Compte,password,https://schema.org/accessCode
+Employe,reference,http://dbpedia.org/ontology/Reference
+Employe,prenom,http://rdfs.org/sioc/ns#last_name
+Employe,nom,http://rdfs.org/sioc/ns#name
+Employe,poste,http://vocab.deri.ie/cogs#Job
+Employe,description,http://usefulinc.com/ns/doap#description
+Employe,telephone,https://schema.org/telephone
+Employe,email,https://schema.org/email
+Service,nom,https://www.bbc.co.uk/ontologies/po#terms_Service
+Site,site_nom,http://vocab.deri.ie/br#Site
+Site,numero_libelle_voie,http://dbpedia.org/ontology/address
+Site,code_postal,http://rdfs.co/juso/latest/html#term-postal_code
+Site,ville,http://dbpedia.org/ontology/city
+Media,chemin,https://spinrdf.org/sp#Path
+Centre_Interet,libelle,http://xmlns.com/foaf/spec/
