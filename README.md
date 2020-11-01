@@ -31,3 +31,5 @@ Les technologies utilisées pour ce projet sont les suivantes :
 * JWT
 * .htaccess
 * Base de données MySQL
+# les éléments de vocabulaires du projet sont disponibles dans google spreadsheet : 
+https://docs.google.com/spreadsheets/d/1-YaoHuiGpOe7FyAZH6zWCG0dkdQCiBZZIxP7X690GaA/edit?usp=sharing
