@@ -1,0 +1,92 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.3
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1
+-- Généré le : Dim 08 nov. 2020 à 22:22
+-- Version du serveur :  10.4.14-MariaDB
+-- Version de PHP : 7.2.34
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données : `omeka`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `vocabulary`
+--
+
+CREATE TABLE `vocabulary` (
+  `id` int(11) NOT NULL,
+  `owner_id` int(11) DEFAULT NULL,
+  `namespace_uri` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `prefix` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `label` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `comment` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `vocabulary`
+--
+
+INSERT INTO `vocabulary` (`id`, `owner_id`, `namespace_uri`, `prefix`, `label`, `comment`) VALUES
+(1, NULL, 'http://purl.org/dc/terms/', 'dcterms', 'Dublin Core', 'Basic resource metadata (DCMI Metadata Terms)'),
+(2, NULL, 'http://purl.org/dc/dcmitype/', 'dctype', 'Dublin Core Type', 'Basic resource types (DCMI Type Vocabulary)'),
+(3, NULL, 'http://purl.org/ontology/bibo/', 'bibo', 'Bibliographic Ontology', 'Bibliographic metadata (BIBO)'),
+(4, NULL, 'http://xmlns.com/foaf/0.1/', 'foaf', 'Friend of a Friend', 'Relationships between people and organizations (FOAF)'),
+(12, 1, 'http://dbpedia.org', 'service', 'Service', ''),
+(13, 1, 'http://dbpedia.org/ontology/city', 'site', 'Site', ''),
+(14, 1, 'http://dbpedia.org/ontology/postalCode', 'site2', 'Code Postal', ''),
+(15, 1, 'http://dbpedia.org/ontology/address', 'adresse', 'Adresse', ''),
+(18, 1, 'http://dbpedia.org/ontology/pseudonym', 'compte', 'Compte', ''),
+(19, 1, 'https://www.w3.org/ns/earl#Pass', 'password', 'password', ''),
+(21, 1, 'http://www.linkedmodel.org/schema/vaem#url', 'chemins', 'chemins', '');
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `vocabulary`
+--
+ALTER TABLE `vocabulary`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_9099C97B9B267FDF` (`namespace_uri`),
+  ADD UNIQUE KEY `UNIQ_9099C97B93B1868E` (`prefix`),
+  ADD KEY `IDX_9099C97B7E3C61F9` (`owner_id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `vocabulary`
+--
+ALTER TABLE `vocabulary`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `vocabulary`
+--
+ALTER TABLE `vocabulary`
+  ADD CONSTRAINT `FK_9099C97B7E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE SET NULL;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
