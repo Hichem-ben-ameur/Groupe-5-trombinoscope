@@ -13,16 +13,33 @@
     }
     </style>
 <body>
-<div id='dataviz'></div>
+<div id='employe'></div>
+<div id='service'></div>
+<div id='site'></div>
 </body>
 
 <script>
-let urlData = "http://localhost/omeka/api/items?item_set_id=39'";
+let listEmployes = "http://localhost/omeka/api/items?item_set_id=38'";
+let listServices = "http://localhost/omeka/api/items?item_set_id=39'";
+let listSites = "http://localhost/omeka/api/items?item_set_id=41'";
 
-d3.json(urlData).then(function(data) {
+d3.json(listSites).then(function(data) {
   console.log(data);
-  d3.select('#dataviz').selectAll('div').data(data).enter().append('div')
+  d3.select('#site').selectAll('div').data(data).enter().append('div')
       .html(d=>d["dcterms:title"][0]["@value"]);
 });
+
+d3.json(listEmployes).then(function(data) {
+  console.log(data);
+  d3.select('#employe').selectAll('div').data(data).enter().append('div')
+      .html(d=>d["dcterms:title"][0]["@value"]);
+});
+
+d3.json(listServices).then(function(data) {
+  console.log(data);
+  d3.select('#service').selectAll('div').data(data).enter().append('div')
+      .html(d=>d["dcterms:title"][0]["@value"]);
+});
+
 </script>
 </html>
