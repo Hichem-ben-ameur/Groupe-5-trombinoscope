@@ -1,0 +1,17 @@
+titre,url
+Profil employé de Corentin,/api/items/37
+Profil employé de Mathias,/api/items/36
+Profil employé de Sarah,/api/items/35
+Profil employé de Steve,/api/items/34
+Profil employé de Tidiane,/api/items/33
+Profil employé de Hichem,/api/items/32
+Compte de Corentin,/api/items/31
+Compte de Mathias,/api/items/30
+Compte de Sarah,/api/items/29
+Compte de Steve,/api/items/28
+Compte de Tidiane,/api/items/27
+Liste des employés,/api/items?item_set_id=38
+Liste des services,/api/items?item_set_id=39
+Liste des centres d'intérêt,/api/items?item_set_id=40
+Liste des comptes,/api/items?item_set_id=42
+Liste des sites,/api/item?item_set_id=41
