@@ -2,6 +2,10 @@
 
 Trombinoscope est un projet académique pour le cours Langages et Technologies Web (Master 2 informatique parcours THYP 2020-2021). Il consiste à traiter des données volumineuses à partir d'un fichier csv.
 
+# Lien Github Pages
+Readme : https://Hichem-ben-ameur.github.io/Groupe-5-trombinoscope/
+Template : https://Hichem-ben-ameur.github.io/Groupe-5-trombinoscope/template/
+
 # Présentation
 Un trombinoscope est une liste des photographies des membres d'une organisation, d'un groupe, d'une classe (à l'école). C'est un outil qui sert principalement à faire connaitre les membres d'une organisation.
 
