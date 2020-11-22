@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Trombinoscope de la promotion 2020 - 2021</title>
+		<title>Trombinoscope 2020 - 2021</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
 	   
@@ -105,7 +105,7 @@
         <div class="row">
             <div class="col-3" style="text-align: center;">
                 <div class="jumbotron" style=" overflow: auto;max-height:600px ;">
-                    <h4>Promotion  2020 - 2021</h4>
+                    <h4>Trombinoscope 2020 - 2021</h4>
                     <hr class="my-4">
                         <h6 style="float:left">Recherche par nom:</h6>
                     <div class="input-group">
@@ -170,8 +170,9 @@
 
 return;}
             dataForm = csv_data[0];
-          new_data=dataForm.filter(function(d){return d["Dans quel parcours êtes vous inscris ?"] == x;});
-            console.log(new_data);
+      
+          new_data=dataForm.filter(function(d){return d["account:voc.tllposte"][0]["@value"] == x;});
+          
             setData(new_data,true);
 
     }
@@ -194,41 +195,22 @@ if (name=="")
 
 return;}
             dataForm = csv_data[0];
-          new_data=dataForm.filter(function(d){return d["Votre nom"].toLowerCase() == name.toLowerCase();});
-            console.log(new_data);
+          new_data=dataForm.filter(function(d){return d["foaf:firstName"][0]["@value"].toLowerCase() == name.toLowerCase()||d["foaf:lastName"][0]["@value"].toLowerCase() == name.toLowerCase();});
+           // console.log(new_data);
             setData(new_data,true);
     
 }
 var parcours;
-var dataPhoto, dataForm, dataFacet=[], dataDoublons={}
-    , vals = {"Pas besoin":1, "Besoin d'approfondissement":5, "Besoin urgent":10, "je ne connais pas du tout":1,"je connais un peu":5,"je connais bien":10,"je suis expert(e)":20
-        ,"Oui":1,"Non":1
-        ,"jamais":1,"rarement":2,"souvent":5,"je suis accro":10
-        ,"Dans quel parcours êtes vous inscris ?":"Parcours"
-        ,"Avez-vous un ordinateur personnel pour suivre les cours ?":"Ordinateur"
-        ,"Votre connexion internet personnelle est :":"Connexion"        
-        ,"Votre compte GitHub":"Compte"
-        ,"Votre compte Diigo":"Compte"
-        ,"Votre compte Zotero":"Compte"
-        ,"Vos spécialités":"Spécialités"
-        ,"Vos spécialités":"Objectifs"
-        ,"Votre formation précédente":"Formation"
-        ,"Quelles sont besoins ?":"Besoins"        
-        ,"Quelles sont vos compétences ?":"Compétences"        
-        ,"Quelles outils utilisez vous ?":"Outils"        
-        ,"Langages":"Langages"
-        ,"Langues":"Langues"
-        ,"CMS":"CMS"
-        ,"Quels réseaux sociaux":"Réseaux sociaux"
-        };
+var dataPhoto, dataForm, dataFacet=[], dataDoublons={};
     
-    let url = 'Formulaire.csv';  
+    let url = '../data/items.json';  
     var csv_data;          
     var q = d3.queue()
-        .defer(d3.csv, url)
+        .defer(d3.json, url)
         .awaitAll(function(error, results) {
             if (error) throw error;
             csv_data=results;
+            console.log(csv_data);
             localStorage.clear();
             setData(results,false);
             
@@ -246,18 +228,22 @@ var dataPhoto, dataForm, dataFacet=[], dataDoublons={}
       if(donneeFiltree==true){ dataForm = data;}
       else { dataForm = data[0];
       parcours=dataFacet[0];}
-     // console.log(dataForm);
+      console.log(dataForm);
             let dataEtu = []; 
       
             //réorganise les datas
             dataForm.forEach(function(d, j){
-                d.reponses = {'besoins':[],'competences':[],'outils':[]};
-                for (let i in d) {
+                console.log("d = "+d["account:voc.tllposte"][0]["@value"]);
+                d.reponses = {'poste':[]};
+              //  for (let i in d) {
                     //compilation des facettes
-                    let quest = i.indexOf("[") > 0 ? vals[i.substring(0, i.indexOf("[")-1)] : vals[i]; 
-                    let prop = i.substring(i.indexOf("[")+1,i.indexOf("]")); 
-                    let v = d[i];
-                    let n = vals[v];
+                   // console.log("i = "+i);
+                    //let quest = i.indexOf("[") > 0 ? vals[i.substring(0, i.indexOf("[")-1)] : vals[i]; 
+                    let quest = "Postes";
+                    //let prop = i.substring(i.indexOf("[")+1,i.indexOf("]")); 
+                    let prop = d["account:voc.tllposte"][0]["@value"];
+                    let v = 'poste';
+                   // let n = vals[v];
 
                     if(quest){
                         if(dataDoublons[quest] === undefined){
@@ -265,7 +251,8 @@ var dataPhoto, dataForm, dataFacet=[], dataDoublons={}
                             dataFacet.push({'label':quest,'values':[]});
                            // console.log(dataFacet);
                         }
-                        let rep = prop ? prop : v;
+                      //  let rep = prop ? prop : v;
+                      let rep = prop ? prop : '';
                         let kRep = quest+'_'+rep;
                         if(dataDoublons[kRep] === undefined){
                             dataDoublons[kRep]=dataFacet[dataDoublons[quest]]['values'].length;
@@ -277,20 +264,15 @@ var dataPhoto, dataForm, dataFacet=[], dataDoublons={}
                             });
                         }                        
                         dataFacet[dataDoublons[quest]]['values'][dataDoublons[kRep]]['ids'].push(j);
-                        dataFacet[dataDoublons[quest]]['values'][dataDoublons[kRep]]['importance'] += n ? n : 1;
+                        dataFacet[dataDoublons[quest]]['values'][dataDoublons[kRep]]['importance'] +=  1;
                         
                     }
-                    if(i.indexOf("besoins")>0){
-                        d.reponses.besoins.push({'prop':prop,'importance':n,'expression':v,'id':j});
+                  // console.log("i = "+prop);
+                   // if(i.indexOf("Poste")>0){
+                        d.reponses.poste.push({'prop':prop,'importance':1,'expression':v,'id':j});
                         //d.reponses.push({'besoins':prop,'val':n,'lib':v});
-                    }
-                    if(i.indexOf("compétences")>0){
-                        d.reponses.competences.push({'prop':prop,'importance':n,'expression':v,'id':j});
-                    }
-                    if(i.indexOf("outils utilisez")>0){
-                        d.reponses.outils.push({'prop':prop,'importance':n,'expression':v,'id':j});
-                    }							
-                }
+                    //}							
+              //  }
             });	
             hideSpinners();
             let html = '<div class="container"><div class="row">';
@@ -329,11 +311,12 @@ var dataPhoto, dataForm, dataFacet=[], dataDoublons={}
                     .attr('class','card-img-top')
                     .attr('src',function(d) { 
                         
-                        let url = new URL(d['Votre photo']);
-                        let urlParam = new URLSearchParams(url.search);
-                        let id = urlParam.get('id');
+                       // let url = new URL(d['Votre photo']);
+                        //let urlParam = new URLSearchParams(url.search);
+                        //let id = urlParam.get('id');
                        
-                        let urlTof = "https://drive.google.com/uc?id="+id+"&export=download";                        
+                        //let urlTof = "https://drive.google.com/uc?id="+id+"&export=download";    
+                        urlTof="";                    
                         return urlTof; 
                         });
 
@@ -341,17 +324,18 @@ var dataPhoto, dataForm, dataFacet=[], dataDoublons={}
             var cardBody = cards.append('div').attr('class','card-body');
             cardBody.append('h4').attr('class','card-title')	  			
                         .text(function(d) { 
-                            return d['Votre prénom'].toLowerCase()+' '+d['Votre nom']; 
+                          
+                            return d["foaf:lastName"][0]["@value"].toLowerCase()+' '+d["foaf:firstName"][0]["@value"]; 
                                 });
    
             cardBody.append('h6').text(d => d['Dans quel parcours êtes vous inscris ?']);
 
 
             //construction du layout pour les graphiques
-            html = '<div class="container-fluid"><div class="row">';
-            html += '<div id="etudNum__Col1" class="col-4" style="padding-right:0px;padding-left:0px;"></div>';
-            html += '<div id="etudNum__Col2" class="col-4" style="padding-right:0px;padding-left:0px;"></div>';
-            html += '<div id="etudNum__Col3" class="col-4" style="padding-right:0px;padding-left:0px;"></div>';
+            html = '<div class="container-fluid"><div class="row" style="text-align: center;">';
+            html += '<div id="etudNum__Col1" class="col-12" style="padding-right:0px;padding-left:0px;"></div>';
+           // html += '<div id="etudNum__Col2" class="col-4" style="padding-right:0px;padding-left:0px;"></div>';
+            //html += '<div id="etudNum__Col3" class="col-4" style="padding-right:0px;padding-left:0px;"></div>';
             html += '</div></div>';
             cardBody.append('div').attr('class','card-text').attr('id',function(d, i) { return 'etudNum_'+i; })
                 .html(function(d, i) { return html.replace(/__/gi, "_"+i+"_");});	  			
@@ -361,21 +345,26 @@ var dataPhoto, dataForm, dataFacet=[], dataDoublons={}
                 
                 .text(function(d, i) {
                         //charge le graph des réponses
-                        var size = 100;
-                        drawGraphReponse("#etudNum_"+i+"_Col1", 'Besoins', d.reponses.besoins, size);
-                        drawGraphReponse("#etudNum_"+i+"_Col2", 'Compétences', d.reponses.competences, size);
-                        drawGraphReponse("#etudNum_"+i+"_Col3", 'Outils', d.reponses.outils, size);
-                return d['Votre mail'].toLowerCase(); 
+                        var size = 120;
+                        drawGraphReponse("#etudNum_"+i+"_Col1", 'Postes occupés', d.reponses.poste, size);
+                       // drawGraphReponse("#etudNum_"+i+"_Col2", 'Compétences', d.reponses.competences, size);
+                        //drawGraphReponse("#etudNum_"+i+"_Col3", 'Outils', d.reponses.outils, size);
+                return d["foaf:mbox"][0]["@value"].toLowerCase(); 
                     });
+                    
                     if(donneeFiltree==false)
     {
-      parcours=dataFacet[0];}
+      parcours=dataFacet[0];
+      
+     // console.log("parcours = "+parcours);
+      }
                   var selectParcours=  document.getElementById("selectParcours");
                 
                   selectParcours.innerHTML='<option value=""></option>';
                  // console.log( console.log(dataFacet[0].values));
                 var selectedParcours=localStorage.getItem("selectedParcours");
-                console.log(selectedParcours);
+                //console.log(selectedParcours);
+
 for (let index = 0; index < parcours.values.length; index++) {
    
 
@@ -456,7 +445,7 @@ function donutChart() {
                 .attr('width', wSvg)
                 .attr('height', hSvg)
               .append('g')
-                .attr('transform', 'translate(' + wSvg / 2 + ',' + hSvg / 2 + ')');            	
+                .attr('transform', 'translate(' + wSvg / 2 + ',' + (hSvg-10) / 2 + ')');            	
             // ===========================================================================================
             // g elements to keep elements within svg modular
             svg.append('g').attr('class', 'slices');
