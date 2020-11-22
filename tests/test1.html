@@ -13,15 +13,20 @@
     }
     </style>
 <body>
-<div id='employe'></div>
-<div id='service'></div>
-<div id='site'></div>
+  <h1>Employés</h1>
+  <div id='employe'></div>
+
+  <h1>Services</h1>
+  <div id='service'></div>
+  
+  <h1>Sites (emplacements) des services</h1>
+  <div id='site'></div>
 </body>
 
 <script>
-let listEmployes = "http://localhost/omeka/api/items?item_set_id=38'";
-let listServices = "http://localhost/omeka/api/items?item_set_id=39'";
-let listSites = "http://localhost/omeka/api/items?item_set_id=41'";
+let listEmployes = "http://localhost/omeka/api/items?resource_class_id[]=116";
+let listServices = "http://localhost/omeka/api/items?resource_class_id[]=119";
+let listSites = "http://localhost/omeka/api/items?resource_class_id[]=118";
 
 d3.json(listSites).then(function(data) {
   console.log(data);
