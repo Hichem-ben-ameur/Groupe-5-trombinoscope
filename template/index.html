@@ -4,86 +4,12 @@
 		<meta charset="UTF-8">
 		<title>Trombinoscope 2020 - 2021</title>
 	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		
-	   
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="./css/style.css">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
         <script src="https://d3js.org/d3.v4.min.js"></script>
 
-        <style type="text/css">
-        .card{
-            height: 500px;
-        }
-        .card-img-top{
-            height:40% ;
-        }
-		/*pour les initiales en majuscule*/
-		.card-title:first-letter{
-			text-transform: uppercase;
-        }
-        
-		/*pour le donuts merci à https://bl.ocks.org/mbhall88/b2504f8f3e384de4ff2b9dfa60f325e2 */
-		polyline{
-		    opacity: .3;
-		    stroke: black;
-		    stroke-width: 2px;
-		    fill: none;
-		}		
-		/* Make the percentage on the text labels bold*/
-		.labelName tspan {
-		    font-style: normal;
-		    font-weight: 700;
-		}		
-		/* In biology we generally italicise species names. */
-		.labelName {
-		    font-size: 0.9em;
-		    font-style: italic;
-		}
-		/*merci à https://www.codeply.com/go/rNFv5RJJqn/bootstrap-modal-full-screen */
-        .modal-full {
-            min-width: 100%;
-            margin: 0;
-        }
 
-        .modal-full .modal-content {
-            min-height: 100vh;
-        }		
-        .tab-pane{
-            height: 100%;
-        }
-        iframe{
-            height: 100%;
-            width:  100%;
-        }
-
-
-		/*merci à http://jsfiddle.net/TheSleepingEight/mAGNM/1/ */
-        .bs-docs-example {
-            position: relative;
-            margin: 15px 0;
-            padding: 39px 19px 14px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            -webkit-border-radius: 4px;
-            -moz-border-radius: 4px;
-            border-radius: 4px;
-        }
-        .scrollspy-example {
-            height: 200px;
-            overflow: auto;
-            position: relative;
-        }
-        div.tooltip {
-            position: absolute;
-            width: 200px;
-            padding: 6px;
-            font: 12px sans-serif;
-            border: 0px;
-            border-radius: 8px;
-            pointer-events: none;
-        }
-
-
-    	</style>
 	</head>
 <body>
 
@@ -107,6 +33,11 @@
                 <div class="jumbotron" style=" overflow: auto;max-height:600px ;">
                     <h4>Trombinoscope 2020 - 2021</h4>
                     <hr class="my-4">
+                    <h6 style="float:left">Centre d'intérêt :</h6>
+                    <div class="input-group" id="centreInteret" > 
+                     
+                    </div>
+                    <hr class="my-4">
                         <h6 style="float:left">Recherche par nom:</h6>
                     <div class="input-group">
                     
@@ -120,6 +51,8 @@
                         </button>
                         </div>
                       </div>
+
+                     
                       <hr class="my-4">
                    <!-- <ul class="nav nav-tabs" id="tabFacet" role="tablist">-->
                   
@@ -142,457 +75,55 @@
                   
                   </div>
             </div>
-            <div class="col-9"  style=" overflow: auto;max-height:600px ;">
-            
+            <div class="col-9"  style=" overflow: auto;max-height:600px ;padding-top: 0px;">
+                        
                 <div class="d-flex justify-content-center" >
                     <div class="spinner-border" role="status" id="spinner2">
                       <span class="sr-only">Loading...</span>
                     </div>
                   </div>
+                  <div class="alert alert-info" role="alert" style="text-align: center;">
+                    <a href="services.html" id="retourServies" style="color: #84B315;float: left;">< <span style="text-decoration: underline;">services</span></a>
+
+                    <h5 id="service" style="display: inline-block;"></h5>
+                  </div>
+                  
                 <div class="row" id="etuCards" >
                     
                 </div>
             </div>
           </div> 
-	
 
 
-</div>
-
-<script>
-    function RechercheByParcours()
-    {
-       document.getElementById("searchByName").value="";
-  var x = document.getElementById("selectParcours").value;
-  localStorage.setItem("selectedParcours",x);
-  if (x=="")
-{setData(csv_data,false);
-
-return;}
-            dataForm = csv_data[0];
-      
-          new_data=dataForm.filter(function(d){return d["account:voc.tllposte"][0]["@value"] == x;});
-          
-            setData(new_data,true);
-
-    }
-    function displaySpinners()
-    {
-        document.getElementById("spinner1").style.display = "block";
-        document.getElementById("spinner2").style.display = "block";
-    }
-    function hideSpinners()
-    {
-        document.getElementById("spinner1").style.display = "none";
-        document.getElementById("spinner2").style.display = "none";
-    }
-function RechercheByName()
-{ displaySpinners();
-    localStorage.clear();
-var name=document.getElementById('searchByName').value;
-if (name=="")
-{setData(csv_data,false);
-
-return;}
-            dataForm = csv_data[0];
-          new_data=dataForm.filter(function(d){return d["foaf:firstName"][0]["@value"].toLowerCase() == name.toLowerCase()||d["foaf:lastName"][0]["@value"].toLowerCase() == name.toLowerCase();});
-           // console.log(new_data);
-            setData(new_data,true);
-    
-}
-var parcours;
-var dataPhoto, dataForm, dataFacet=[], dataDoublons={};
-    
-    let url = '../data/items.json';  
-    var csv_data;          
-    var q = d3.queue()
-        .defer(d3.json, url)
-        .awaitAll(function(error, results) {
-            if (error) throw error;
-            csv_data=results;
-            console.log(csv_data);
-            localStorage.clear();
-            setData(results,false);
-            
-        });
-    var divTT = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
-
-    function setData(data,donneeFiltree){
-        
-        dataFacet=[];
-        dataDoublons={};
- document.getElementById("etuCards").innerHTML="";
- document.getElementById("tabFacet").innerHTML="";
-      if(donneeFiltree==true){ dataForm = data;}
-      else { dataForm = data[0];
-      parcours=dataFacet[0];}
-      console.log(dataForm);
-            let dataEtu = []; 
-      
-            //réorganise les datas
-            dataForm.forEach(function(d, j){
-                console.log("d = "+d["account:voc.tllposte"][0]["@value"]);
-                d.reponses = {'poste':[]};
-              //  for (let i in d) {
-                    //compilation des facettes
-                   // console.log("i = "+i);
-                    //let quest = i.indexOf("[") > 0 ? vals[i.substring(0, i.indexOf("[")-1)] : vals[i]; 
-                    let quest = "Postes";
-                    //let prop = i.substring(i.indexOf("[")+1,i.indexOf("]")); 
-                    let prop = d["account:voc.tllposte"][0]["@value"];
-                    let v = 'poste';
-                   // let n = vals[v];
-
-                    if(quest){
-                        if(dataDoublons[quest] === undefined){
-                            dataDoublons[quest]=dataFacet.length; 
-                            dataFacet.push({'label':quest,'values':[]});
-                           // console.log(dataFacet);
-                        }
-                      //  let rep = prop ? prop : v;
-                      let rep = prop ? prop : '';
-                        let kRep = quest+'_'+rep;
-                        if(dataDoublons[kRep] === undefined){
-                            dataDoublons[kRep]=dataFacet[dataDoublons[quest]]['values'].length;
-                            dataFacet[dataDoublons[quest]]['values'].push({
-                                'prop':rep
-                                ,'importance': 0
-                                ,'expression':v
-                                ,'ids':[]
-                            });
-                        }                        
-                        dataFacet[dataDoublons[quest]]['values'][dataDoublons[kRep]]['ids'].push(j);
-                        dataFacet[dataDoublons[quest]]['values'][dataDoublons[kRep]]['importance'] +=  1;
-                        
-                    }
-                  // console.log("i = "+prop);
-                   // if(i.indexOf("Poste")>0){
-                        d.reponses.poste.push({'prop':prop,'importance':1,'expression':v,'id':j});
-                        //d.reponses.push({'besoins':prop,'val':n,'lib':v});
-                    //}							
-              //  }
-            });	
-            hideSpinners();
-            let html = '<div class="container"><div class="row">';
-            html += '<div id="tabFacetContent__Col1" class="col-sm" style="padding-right:0px;padding-left:0px;"></div>';
-            //html += '<div id="tabFacetContent__Col2" class="col-sm" style="padding-right:0px;padding-left:0px;"></div>';
-            html += '</div></div>';
-            //ajoute les tab de filtres
-            var arrFacet = d3.select("#tabFacet")
-                .selectAll("div")
-                .data(dataFacet)
-                .enter().append("div")
-                .attr('class',"nav-item")
-                .attr('role',"presentation")
-                .append("a")
-                .attr('class',function(d,i){
-                    return i==0 ? "nav-link active" : "nav-link"
-                })
-                .attr('id',function(d,i){
-                    return "tabFacet"+i
-                })
-
-                .text(d => d.label)
-                .html(function(d, i) { return html.replace(/__/gi, "_"+i+"_");});	
-                arrFacet.append('div').attr('id',function(d,i){
-                    return "tabFacetContentDiag"+i
-                })
-                .text((d,i) => {
-                    drawGraphReponse("#tabFacetContent_"+i+"_Col1", d.label, d.values, 100);
-                });			
-
-            var cards = d3.select('#etuCards').selectAll(".col-sm-4 mb-12").data(dataForm).enter()
-                .append('div').attr('class','col-sm-4 mb-12').style('margin-bottom','10px')
-                .append("div").attr('class','card');
-            cards.append("img")
-                    .attr('id',function(d, i) {return 'imgCard'+i})
-                    .attr('class','card-img-top')
-                    .attr('src',function(d) { 
-                        
-                       // let url = new URL(d['Votre photo']);
-                        //let urlParam = new URLSearchParams(url.search);
-                        //let id = urlParam.get('id');
-                       
-                        //let urlTof = "https://drive.google.com/uc?id="+id+"&export=download";    
-                        urlTof="";                    
-                        return urlTof; 
-                        });
-
-
-            var cardBody = cards.append('div').attr('class','card-body');
-            cardBody.append('h4').attr('class','card-title')	  			
-                        .text(function(d) { 
-                          
-                            return d["foaf:lastName"][0]["@value"].toLowerCase()+' '+d["foaf:firstName"][0]["@value"]; 
-                                });
-   
-            cardBody.append('h6').text(d => d['Dans quel parcours êtes vous inscris ?']);
-
-
-            //construction du layout pour les graphiques
-            html = '<div class="container-fluid"><div class="row" style="text-align: center;">';
-            html += '<div id="etudNum__Col1" class="col-12" style="padding-right:0px;padding-left:0px;"></div>';
-           // html += '<div id="etudNum__Col2" class="col-4" style="padding-right:0px;padding-left:0px;"></div>';
-            //html += '<div id="etudNum__Col3" class="col-4" style="padding-right:0px;padding-left:0px;"></div>';
-            html += '</div></div>';
-            cardBody.append('div').attr('class','card-text').attr('id',function(d, i) { return 'etudNum_'+i; })
-                .html(function(d, i) { return html.replace(/__/gi, "_"+i+"_");});	  			
-            cards.append('div').attr('class','card-footer')
-                .append('small').attr('class','text-muted')
-                .append('a').attr('href', 'mailto:' )
-                
-                .text(function(d, i) {
-                        //charge le graph des réponses
-                        var size = 120;
-                        drawGraphReponse("#etudNum_"+i+"_Col1", 'Postes occupés', d.reponses.poste, size);
-                       // drawGraphReponse("#etudNum_"+i+"_Col2", 'Compétences', d.reponses.competences, size);
-                        //drawGraphReponse("#etudNum_"+i+"_Col3", 'Outils', d.reponses.outils, size);
-                return d["foaf:mbox"][0]["@value"].toLowerCase(); 
-                    });
-                    
-                    if(donneeFiltree==false)
-    {
-      parcours=dataFacet[0];
-      
-     // console.log("parcours = "+parcours);
-      }
-                  var selectParcours=  document.getElementById("selectParcours");
-                
-                  selectParcours.innerHTML='<option value=""></option>';
-                 // console.log( console.log(dataFacet[0].values));
-                var selectedParcours=localStorage.getItem("selectedParcours");
-                //console.log(selectedParcours);
-
-for (let index = 0; index < parcours.values.length; index++) {
-   
-
-  var opt = document.createElement('option');
-    opt.value = parcours.values[index].prop;
-    opt.innerHTML = parcours.values[index].prop;
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" id="btnModal" style="display: none;">
+    Launch static backdrop modal
+  </button>
   
-    selectParcours.appendChild(opt);
-    if(selectedParcours==parcours.values[index].prop){selectParcours.selectedIndex=index+1; }
-}
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">Profil numéro </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modalBody">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+         <!-- <button type="button" class="btn btn-primary">Understood</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="./js/scripts.js"></script> 
+<script src="./js/chart.js"></script> 
 
-}
-
-
-function drawGraphReponse(idE, titre, data, size){
-
-	let donut = donutChart()
-	    .width(size)
-	    .height(size)
-	    .cornerRadius(3) // sets how rounded the corners are on each slice
-	    .padAngle(0.015) // effectively dictates the gap between slices
-	    .variable('importance')
-	    .category('prop')
-	    .title(titre);
-    let s = d3.select(idE)
-        .datum(data) // bind data to the div
-        .call(donut); // draw chart in div
-  //  console.log(idE+" graph fait");
-}
-
-
-function donutChart() {
-    var width,
-        height,
-        margin = {top: 0, right: 0, bottom: 10, left: 0},
-        colour = d3.scaleOrdinal(d3.schemeCategory20c), // colour scheme
-        variable, // value in data that will dictate proportions on chart
-        category, // compare data by
-        padAngle, // effectively dictates the gap between slices
-        floatFormat = d3.format('.4r'),
-        cornerRadius, // sets how rounded the corners are on each slice
-        percentFormat = d3.format(',.2%'),
-        title;
-
-    function chart(selection){
-        selection.each(function(data) {
-            // generate chart
-
-            // ===========================================================================================
-            // Set up constructors for making donut. See https://github.com/d3/d3-shape/blob/master/README.md
-            var radius = Math.min(width, height) / 2;
-
-            // creates a new pie generator
-            var pie = d3.pie()
-                .value(function(d) { return floatFormat(d[variable]); })
-                .sort(null);
-
-            // contructs and arc generator. This will be used for the donut. The difference between outer and inner
-            // radius will dictate the thickness of the donut
-            var arc = d3.arc()
-                .outerRadius(radius * 0.8)
-                .innerRadius(radius * 0.6)
-                .cornerRadius(cornerRadius)
-                .padAngle(padAngle);
-
-            // this arc is used for aligning the text labels
-            var outerArc = d3.arc()
-                .outerRadius(radius * 0.9)
-                .innerRadius(radius * 0.9);
-
-                
-            // ===========================================================================================
-
-            // ===========================================================================================
-            // append the svg object to the selection
-            var wSvg = width + margin.left + margin.right, hSvg = height + margin.top + margin.bottom; 
-            var svg = selection.append('svg')
-                .attr('width', wSvg)
-                .attr('height', hSvg)
-              .append('g')
-                .attr('transform', 'translate(' + wSvg / 2 + ',' + (hSvg-10) / 2 + ')');            	
-            // ===========================================================================================
-            // g elements to keep elements within svg modular
-            svg.append('g').attr('class', 'slices');
-            svg.append('g').attr('class', 'labelName');
-            svg.append('g').attr('class', 'lines');
-            // ===========================================================================================
-
-            // ===========================================================================================
-            // add and colour the donut slices
-            var path = svg.select('.slices')
-                .datum(data).selectAll('path')
-                .data(pie)
-              .enter().append('path')
-                .attr('fill', function(d) { 
-                    d.couleur = colour(d.data[category])
-                    return d.couleur; 
-                })
-                .attr('d', arc);
-
-
-            //ajoute le titre
-            svg.append('text')
-                .html(title)            
-                .attr('text-anchor', 'middle')
-                .attr('y', hSvg/2);            	
-
-
-            // ===========================================================================================
-            // add tooltip to mouse events on slices and labels
-            d3.selectAll('.labelName text, .slices path').call(toolTip);
-            // ===========================================================================================
-
-            // ===========================================================================================
-            // Functions
-
-            // calculates the angle for the middle of a slice
-            function midAngle(d) { return d.startAngle + (d.endAngle - d.startAngle) / 2; }
-
-            // function that creates and adds the tool tip to a selected element
-            function toolTip(selection) {
-
-                // add tooltip (svg circle element) when mouse enters label or slice
-                selection.on('mouseenter', function (data) {
-                	
-              		
-                        divTT.transition()
-                            .duration(200)
-                            .style("opacity", .9);
-                        divTT.html(toolTipHTML(data))
-                            .style('background', data.couleur)
-                            .style("left", (d3.event.pageX) + "px")
-                            .style("top", (d3.event.pageY - 28) + "px");
-
-
-                });
-
-                // remove the tooltip when mouse leaves the slice/label
-                selection.on('mouseout', function (data) {
-                    d3.selectAll('.toolCircle').remove();
-              		                    
-                        divTT.transition()
-                            .duration(500)
-                            .style("opacity", 0);
-                                    });
-            }
-
-            // function to create the HTML string for the tool tip. Loops through each key in data object
-            // and returns the html string key: value
-            function toolTipHTML(data) {
-
-            		var tip = '<h6 class="card-title">'+data.data.prop+'</h6>'
-            		tip += '<p class="card-text">'+data.data.expression+'</p>';
-
-                return tip;
-            }
-            // ===========================================================================================
-
-        });
-    }
-
-    // getter and setter functions. See Mike Bostocks post "Towards Reusable Charts" for a tutorial on how this works.
-    chart.width = function(value) {
-        if (!arguments.length) return width;
-        width = value;
-        return chart;
-    };
-
-    chart.height = function(value) {
-        if (!arguments.length) return height;
-        height = value;
-        return chart;
-    };
-
-    chart.margin = function(value) {
-        if (!arguments.length) return margin;
-        margin = value;
-        return chart;
-    };
-
-    chart.radius = function(value) {
-        if (!arguments.length) return radius;
-        radius = value;
-        return chart;
-    };
-
-    chart.padAngle = function(value) {
-        if (!arguments.length) return padAngle;
-        padAngle = value;
-        return chart;
-    };
-
-    chart.cornerRadius = function(value) {
-        if (!arguments.length) return cornerRadius;
-        cornerRadius = value;
-        return chart;
-    };
-
-    chart.colour = function(value) {
-        if (!arguments.length) return colour;
-        colour = value;
-        return chart;
-    };
-
-    chart.variable = function(value) {
-        if (!arguments.length) return variable;
-        variable = value;
-        return chart;
-    };
-
-    chart.category = function(value) {
-        if (!arguments.length) return category;
-        category = value;
-        return chart;
-    };
-
-    chart.title = function(value) {
-        if (!arguments.length) return title;
-        title = value;
-        return chart;
-    };
-    
-    return chart;
-}
-
-
-
-</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
