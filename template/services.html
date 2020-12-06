@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Trombinoscope 2020 - 2021</title>
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		
+	   
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="./css/style.css">
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+
+
+	</head>
+<body>
+
+<!--<div class="jumbotron">
+ 
+  <h2>Promotion  2020 - 2021</h2>
+  <hr class="my-4">
+
+  <ul class="nav nav-tabs" id="tabFacet" role="tablist">
+  </ul>
+  <div class="tab-content" id="tabFacetContent">
+  </div>
+
+</div>-->
+
+
+    <div class="container-fluid"> 
+        
+        <div class="row">
+            <div class="col-3" style="text-align: center;">
+                <div class="jumbotron" style=" overflow: auto;max-height:600px ;">
+                    <h4>Trombinoscope 2020 - 2021</h4>
+                    <hr class="my-4">
+                    <!-- <ul class="nav nav-tabs" id="tabFacet" role="tablist">-->
+                   
+                        <a class="btn btn-danger" href="index.html" >Tous les employés</a>
+                    
+     
+                      <hr class="my-4">
+                   <!-- <ul class="nav nav-tabs" id="tabFacet" role="tablist">-->
+                  
+                       <h6 style="float:left">Recherche par site:</h6>
+                       <select class="custom-select" id="selectParcours" onchange="RechercheByParcours()"> 
+                        <option value=""></option>
+                      </select>
+                      <hr class="my-4">
+                       <div class="d-flex justify-content-center" >
+                        <div class="spinner-border" role="status" id="spinner1">
+                          <span class="sr-only">Loading...</span>
+                        </div>
+                      </div>
+                     
+                      <h6 id="title_stat" >Statistiques</h6>
+                    <div  id="tabFacet" role="tablist">
+              
+                    </div>
+    
+                  
+                  </div>
+            </div>
+            <div class="col-9"  style=" overflow: auto;max-height:600px ;">
+            
+                <div class="d-flex justify-content-center" >
+                    <div class="spinner-border" role="status" id="spinner2">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                <div class="row" id="etuCards" >
+                    
+                </div>
+            </div>
+          </div> 
+	
+
+
+</div>
+<script src="./js/service.js"></script> 
+<script src="./js/chart.js"></script> 
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>
