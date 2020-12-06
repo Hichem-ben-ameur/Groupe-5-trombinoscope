@@ -5,7 +5,7 @@ Trombinoscope est un projet académique pour le cours Langages et Technologies W
 # Lien Github Pages
 Readme : https://Hichem-ben-ameur.github.io/Groupe-5-trombinoscope/
 
-Template : https://Hichem-ben-ameur.github.io/Groupe-5-trombinoscope/template/service.html
+Template : https://Hichem-ben-ameur.github.io/Groupe-5-trombinoscope/template/services.html
 
 # Présentation
 Un trombinoscope est une liste des photographies des membres d'une organisation, d'un groupe, d'une classe (à l'école). C'est un outil qui sert principalement à faire connaitre les membres d'une organisation.
